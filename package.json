@@ -1,0 +1,23 @@
+{
+  "name": "wintersmith-plugin",
+  "version": "1.0.0",
+  "description": "A wintersmith plugin.",
+  "author": "Anonymous",
+  "license": "MIT",
+  "keywords": [
+    "wintersmith",
+    "wintersmith-plugin"
+  ],
+  "main": "lib/",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "coffee-script": ">1.5"
+  },
+  "peerDependencies": {
+    "wintersmith": "2.x"
+  },
+  "scripts": {
+    "prepublish": "./bin/prepublish"
+  }
+}
