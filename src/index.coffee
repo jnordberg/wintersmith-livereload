@@ -10,7 +10,7 @@ module.exports = (env, callback) ->
     ### Prepends 'Wintersmith is awesome' to text files. ###
 
     constructor: (@filepath, text) ->
-      @text = 'Wintersmith is awesome\n' + text
+      @text = 'Wintersmith is awesome!\n' + text
 
     getFilename: ->
       # filename where plugin is rendered to, this plugin uses the
