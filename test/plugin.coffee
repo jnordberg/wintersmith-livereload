@@ -13,7 +13,6 @@ suite.addBatch
       topic: (env) -> env.load @callback
       'loaded ok': (result) ->
         assert.instanceOf result.contents, wintersmith.ContentTree
-        assert.isNaN NaN
       'has plugin instances': (result) ->
         assert.instanceOf result.contents['hello.txt'], wintersmith.ContentPlugin
         assert.isArray result.contents._.text
