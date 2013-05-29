@@ -1,23 +1,43 @@
-wintersmith-plugin
-==================
+wintersmith-livereload
+======================
 
-[Wintersmith](https://github.com/jnordberg/wintersmith) plugin template
+[LiveReload](https://github.com/livereload) plugin for [Wintersmith](https://github.com/jnordberg/wintersmith).
 
 ## Installing
 
-Install globally or locally using npm
-
 ```
-npm install [-g] wintersmith-plugin
+wintersmith plugin install livereload
 ```
 
-and add `wintersmith-plugin` to your config.json
+or using npm
+
+```
+npm install [-g] wintersmith-livereload
+```
+
+and then add `wintersmith-livereload` to your config.json
 
 ```json
 {
   "plugins": [
-    "wintersmith-plugin"
+    "wintersmith-livereload"
   ]
+}
+```
+
+## Usage
+
+Include `env.helpers.livereload()` somewhere in your template, it will inject the livereload script if running in preview mode.
+
+Options (can be omitted, defaults shown here):
+
+```json
+{
+  "livereload": {
+    "port": 35729
+    "clientScript": "livereload.js"
+    "liveCSS": true
+  }
 }
 ```
 

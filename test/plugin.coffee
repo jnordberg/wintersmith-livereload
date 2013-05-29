@@ -13,13 +13,5 @@ suite.addBatch
       topic: (env) -> env.load @callback
       'loaded ok': (result) ->
         assert.instanceOf result.contents, wintersmith.ContentTree
-      'has plugin instances': (result) ->
-        assert.instanceOf result.contents['hello.txt'], wintersmith.ContentPlugin
-        assert.isArray result.contents._.text
-        assert.lengthOf result.contents._.text, 2
-      'contains the right text': (result) ->
-        for item in result.contents._.text
-          assert.isString item.text
-          assert.match item.text, /^Wintersmith is awesome!\n/
 
 suite.export module

@@ -1,39 +1,57 @@
-### A Wintersmith plugin. ###
-
-fs = require 'fs'
+path = require 'path'
+LivereloadServer = require 'livereload-server'
 
 module.exports = (env, callback) ->
-  # *env* is the current wintersmith environment
-  # *callback* should be called when the plugin has finished loading
+  env.helpers.livereload = -> ''
+  return callback() if env.mode isnt 'preview'
 
-  class MyPlugin extends env.ContentPlugin
-    ### Prepends 'Wintersmith is awesome' to text files. ###
+  defaults =
+    port: 35729
+    clientScript: 'livereload.js'
+    liveCSS: true
 
-    constructor: (@filepath, text) ->
-      @text = 'Wintersmith is awesome!\n' + text
+  options = env.config.livereload or {}
+  for key of defaults
+    options[key] ?= defaults[key]
 
-    getFilename: ->
-      # filename where plugin is rendered to, this plugin uses the
-      @filepath.relative
+  clientScript = new env.plugins.StaticFile
+    full: path.resolve __dirname, './../livereload.js'
+    relative: options.clientScript
 
-    getView: -> (env, locals, contents, templates, callback) ->
-      # note that this function returns a function, you can also return a string
-      # to use a view already added to the env, see env.registerView for more
+  server = new LivereloadServer
+    id: 'com.yellowagents.wintersmith'
+    name: 'Wintersmith'
+    version: '0.1.0'
+    port: options.port
+    protocols:
+      monitoring: 7
+      saving: 1
 
-      # this view simply passes the text to the renderer
-      callback null, new Buffer(@text) # you can also pass a stream
+  server.on 'connected', (conneciton) ->
+    env.logger.verbose "LiveReload: Client connected (#{ conneciton.id })"
 
-  MyPlugin.fromFile = (filepath, callback) ->
-    fs.readFile filepath.full, (error, result) ->
-      if not error?
-        plugin = new MyPlugin filepath, result.toString()
-      callback error, plugin
+  server.on 'disconnected', (conneciton) ->
+    env.logger.verbose "LiveReload: Client disconnected (#{ conneciton.id })"
 
-  # register the plugin to intercept .txt and .text files using a glob pattern
-  # the first argument is the content group the plugin will belong to
-  # i.e. directory grouping, contents.somedir._.text is an array of all
-  #      plugin instances beloning to the text group in somedir
-  env.registerContentPlugin 'text', '**/*.*(txt|text)', MyPlugin
+  server.on 'command', (conneciton, command) ->
+    env.logger.verbose "LiveReload: #{ JSON.stringify(command) }"
 
-  # tell plugin manager we are done
-  callback()
+  server.on 'error', (error) ->
+    env.logger.error error.message, error
+
+  env.helpers.livereload = ->
+    """<script src="#{ clientScript.url }?port=#{ options.port }" type="text/javascript"></script>"""
+
+  env.registerGenerator 'livereload', (contents, callback) ->
+    callback null, {livereload: clientScript}
+
+  env.on 'change', (filename) ->
+    for id, connection of server.connections
+      connection.send
+        command: 'reload'
+        path: filename or ''
+        liveCSS: options.liveCSS
+
+  server.listen (error) ->
+    env.logger.info "LiveReload listening on port #{ server.port }" if not error?
+    callback error
