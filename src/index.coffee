@@ -53,5 +53,8 @@ module.exports = (env, callback) ->
         liveCSS: options.liveCSS
 
   server.listen (error) ->
+    server.wsserver.on 'connection', (socket) ->
+      socket.on 'error', (error) ->
+        throw error if error.code isnt 'ECONNRESET' # ignore connection resets
     env.logger.info "LiveReload listening on port #{ server.port }" if not error?
     callback error
