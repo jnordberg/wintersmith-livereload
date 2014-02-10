@@ -14,8 +14,8 @@
     "livereload-server": "~0.2.3"
   },
   "devDependencies": {
-    "coffee-script": ">1.5",
     "vows": "0.7.x",
+    "coffee-script": "~1.7.1",
     "wintersmith": "2.x"
   },
   "peerDependencies": {
