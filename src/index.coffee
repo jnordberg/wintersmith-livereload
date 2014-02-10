@@ -17,6 +17,7 @@ module.exports = (env, callback) ->
   clientScript = new env.plugins.StaticFile
     full: path.resolve __dirname, './../livereload.js'
     relative: options.clientScript
+  clientScript.__env = env
 
   server = new LivereloadServer
     id: 'com.yellowagents.wintersmith'
@@ -41,6 +42,8 @@ module.exports = (env, callback) ->
 
   env.helpers.livereload = ->
     """<script src="#{ clientScript.url }?port=#{ options.port }" type="text/javascript"></script>"""
+
+  env.locals.livereloadScript ?= env.helpers.livereload()
 
   env.registerGenerator 'livereload', (contents, callback) ->
     callback null, {livereload: clientScript}
