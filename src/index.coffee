@@ -9,6 +9,7 @@ module.exports = (env, callback) ->
     port: 35729
     clientScript: 'livereload.js'
     liveCSS: true
+    ignore: []
 
   options = env.config.livereload or {}
   for key of defaults
@@ -49,6 +50,8 @@ module.exports = (env, callback) ->
     callback null, {livereload: clientScript}
 
   env.on 'change', (filename) ->
+    return for exp in options.ignore when new RegExp(exp).test filename
+
     for id, connection of server.connections
       connection.send
         command: 'reload'
