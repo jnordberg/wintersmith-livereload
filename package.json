@@ -11,14 +11,12 @@
   ],
   "main": "lib/",
   "dependencies": {
-    "livereload-server": "~0.2.3"
+    "livereload-js": "^2.2.2",
+    "ws": "^0.7.2"
   },
   "devDependencies": {
-    "vows": "0.7.x",
-    "coffee-script": "~1.7.1",
-    "wintersmith": "2.x"
-  },
-  "peerDependencies": {
+    "vows": "^0.8.1",
+    "coffee-script": "^1.9.3",
     "wintersmith": "2.x"
   },
   "scripts": {
