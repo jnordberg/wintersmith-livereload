@@ -1,4 +1,3 @@
-path = require 'path'
 LivereloadServer = require './livereload-server'
 
 module.exports = (env, callback) ->
@@ -14,7 +13,7 @@ module.exports = (env, callback) ->
   for key of defaults
     options[key] ?= defaults[key]
 
-  scriptPath = path.resolve __dirname, './../node_modules/livereload-js/dist/livereload.js'
+  scriptPath = require.resolve 'livereload-js/dist/livereload.js'
 
   clientScript = new env.plugins.StaticFile
     full: scriptPath
