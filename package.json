@@ -1,6 +1,6 @@
 {
   "name": "wintersmith-livereload",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "LiveReload plugin for Wintersmith",
   "author": "Johan Nordberg <code@johan-nordberg.com>",
   "license": "MIT",
