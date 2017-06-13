@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/vows test/* --spec",
-    "prepublish": "./bin/compile"
+    "prepublishOnly": "coffee -o ./lib -b -c ./src"
   },
   "repository": "git@github.com:jnordberg/wintersmith-livereload.git"
 }
