@@ -11,7 +11,6 @@
   ],
   "main": "lib/",
   "dependencies": {
-    "livereload-js": "^2.2.2",
     "ws": "^0.8.0"
   },
   "devDependencies": {

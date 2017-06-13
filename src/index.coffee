@@ -13,7 +13,7 @@ module.exports = (env, callback) ->
   for key of defaults
     options[key] ?= defaults[key]
 
-  scriptPath = require.resolve 'livereload-js/dist/livereload.js'
+  scriptPath = require.resolve '../livereload.js'
 
   clientScript = new env.plugins.StaticFile
     full: scriptPath
