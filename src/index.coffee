@@ -1,5 +1,7 @@
 LivereloadServer = require './livereload-server'
 
+server = undefined
+
 module.exports = (env, callback) ->
   env.helpers.livereload = -> ''
   return callback() if env.mode isnt 'preview'
@@ -20,8 +22,9 @@ module.exports = (env, callback) ->
     relative: options.clientScript
   clientScript.__env = env
 
-  server = new LivereloadServer
-    port: options.port
+  unless server?
+    server = new LivereloadServer
+      port: options.port
 
   env.helpers.livereload = ->
     """<script src="#{ clientScript.url }?port=#{ options.port }" type="text/javascript"></script>"""
