@@ -11,7 +11,7 @@
   ],
   "main": "lib/",
   "dependencies": {
-    "ws": "^0.8.0"
+    "ws": "^3.0.0"
   },
   "devDependencies": {
     "vows": "^0.8.1",
