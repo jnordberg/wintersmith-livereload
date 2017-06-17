@@ -10,6 +10,7 @@ module.exports = (env, callback) ->
     port: 35729
     clientScript: 'livereload.js'
     liveCSS: true
+    includeIgnored: true
 
   options = env.config.livereload or {}
   for key of defaults
@@ -34,7 +35,11 @@ module.exports = (env, callback) ->
   env.registerGenerator 'livereload', (contents, callback) ->
     callback null, {livereload: clientScript}
 
-  env.on 'change', (filename) ->
+  env.on 'change', (filename, ignored) ->
+    if ignored
+      return unless options.includeIgnored
+      # small hack to allow changes to ignored style files to be hotloaded
+      filename = filename.replace /\.(styl|less|scss|sass)$/i, '.css'
     server.send
       command: 'reload'
       path: filename ? ''
