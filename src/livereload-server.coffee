@@ -23,6 +23,8 @@ class Server
   handleConnection: (socket) ->
     client = new Client socket
     @clients.push client
+    socket.on 'error', (err) ->
+      console.log(err)
     socket.on 'close', =>
       idx = @clients.indexOf client
       @clients.splice idx, 1
